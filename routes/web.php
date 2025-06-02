@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StaticPageController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +30,9 @@ Route::name('admin.')
 
         Route::get('/', [StaticPageController::class, 'admin'])
             ->name('index');
+
+        Route::resource('/roles', RoleController::class);
+        Route::resource('/permissions', PermissionController::class);
 
     });
 
