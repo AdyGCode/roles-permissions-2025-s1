@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
+use Spatie\Permission\Exceptions\RoleAlreadyExists;
 use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
@@ -25,21 +27,58 @@ class RoleController extends Controller
 
     public function store(Request $request)
     {
+        $role = null;
 
-        $validated = $request->validate([
-            'name' => [
-                'required',
-                'min:5',
-                'max:64',
-                'unique:roles'
-            ]
-        ]);
+        try {
 
-        $validated['name'] = Str::lower($validated['name']);
+            $validated = $request->validate([
+                'name' => [
+                    'required',
+                    'min:5',
+                    'max:64',
+                    'unique:roles'
+                ]
+            ]);
 
-        Role::create($validated);
+            $validated['name'] = Str::lower($validated['name']);
+
+            $role = Role::create($validated);
+
+        } catch (ValidationException $e) {
+
+            flash()->error('Please fix the errors in the form.',
+                [
+                    'position' => 'top-center',
+                    'timeout' => 5000,
+                ],
+                'Role Creation Failed');
+
+            return back()->withErrors($e->validator)->withInput();
+
+        } catch (RoleAlreadyExists $e) {
+
+            flash()->error('The role already exists.',
+                [
+                    'position' => 'top-center',
+                    'timeout' => 5000,
+                ],
+                'Role Creation Failed');
+
+            return back()->withErrors($e->getMessage())->withInput();
+
+        }
+
+        $roleName = $role->name;
+
+        flash()->success("Role $roleName created successfully!",
+            [
+                'position' => 'top-center',
+                'timeout' => 5000,
+            ],
+            "Role Added");
 
         return to_route('admin.roles.index');
+
 
     }
 

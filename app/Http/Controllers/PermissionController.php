@@ -42,4 +42,57 @@ class PermissionController extends Controller
         return to_route('admin.permissions.index');
 
     }
+
+
+
+    public function edit(Permission $permission)
+    {
+        return view('admin.permissions.edit')
+            ->with('permission', $permission);
+    }
+
+
+    public function update(Permission $permission, Request $request)
+    {
+        $validated = $request->validate([
+            'name' => [
+                'required',
+                'min:5',
+                'max:64',
+                'unique:permissions'
+            ]
+        ]);
+
+        $validated['name'] = Str::lower($validated['name']);
+
+        $permission->update($validated);
+
+        return to_route('admin.permissions.index');
+    }
+
+
+    public function delete(Permission $permission)
+    {
+        return view('admin.permissions.delete')
+            ->with('permission', $permission);
+    }
+
+
+    public function destroy(Permission $permission, Request $request)
+    {
+
+        $permissionName = $permission->name;
+
+        $validated = $request->validate([
+            'name' => [
+                'required',
+                'exists:permissions,name'
+            ]
+        ]);
+
+        $permission->delete();
+
+        return to_route('admin.permissions.index');
+    }
+
 }
