@@ -31,8 +31,13 @@
 
                         <tbody class="divide-y divide-gray-200">
                         @foreach($roles as $role)
+
                             <tr class="*:text-gray-900 *:first:font-medium">
-                                <td class="px-3 py-2 whitespace-nowrap">{{ $role->name }}</td>
+
+                                <td class="px-3 py-2 whitespace-nowrap">
+                                    {{ $role->name }}
+                                </td>
+
                                 <td class="px-3 py-2 whitespace-nowrap">
 
                                     <x-link-button
@@ -42,7 +47,7 @@
                                     </x-link-button>
 
                                     <x-link-button
-                                        class="hover:bg-red-500 focus:bg-red-400 active:bg-red-400"
+                                        class="hover:bg-red-500 focus:bg-red-400 active:bg-red-400 "
                                         href="{{ route('admin.roles.delete', $role) }}">
                                         Delete
                                     </x-link-button>
@@ -50,17 +55,20 @@
                                 </td>
 
                             </tr>
+
                         @endforeach
                         </tbody>
 
                         <tfoot>
                         <tr>
                             <td colspan="2" class="p-3">
+
                                 @if( $roles->hasPages())
                                     {{ $roles->links() }}
                                 @else
                                     <p class="text-sm text-gray-500">All Roles shown</p>
                                 @endif
+
                             </td>
                         </tr>
                         </tfoot>
