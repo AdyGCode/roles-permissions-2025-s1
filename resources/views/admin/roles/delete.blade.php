@@ -50,8 +50,7 @@
                             <x-text-input id="name"
                                           name="name"
                                           type="name"
-                                          class="block mt-1 w-full"
-                                          required/>
+                                          class="block mt-1 w-full"/>
 
                             <x-input-error
                                 :messages="$errors->get('name')"

@@ -46,7 +46,7 @@
 
                         <div class="flex flex-row space-x-4">
 
-                            <x-primary-button>
+                            <x-primary-button type="submit">
                                 Save
                             </x-primary-button>
                             <x-link-button href="{{route('admin.roles.index')}}">
@@ -55,9 +55,72 @@
                         </div>
                     </form>
 
+                    <section class="grid grid-cols-2 space-y-2 mt-4 px-6  space-x-8">
+                        <div class="-mx-6 bg-gray-100 col-span-2 px-6 pb-2">
+                            <h3 class="-mx-6 px-6 py-2 text-lg font-semibold col-span-2 bg-gray-100">
+                                Current Permissions
+                            </h3>
+                            <div class="flex flex-row gap-1 flex-wrap pb-2">
+                                @forelse($rolePermissions as $rolePermission)
+                                    <p class="text-xs bg-gray-700 text-gray-100 p-1 px-2 rounded-full whitespace-nowrap">{{ $rolePermission->name }}</p>
+                                @empty
+                                    <p class="text-gray-600 text-sm">
+                                        No Permissions
+                                    </p>
+                                @endforelse
+                            </div>
+                        </div>
+
+                        <div class="mt-2 mb-6 bg-gray-100 shadow border border-gray-300 rounded p-4 pt-2">
+                            <h3 class="mb-2 bg-gray-300 text-gray-800 px-4 py-1 -mt-2 -mx-4">Add Permissions</h3>
+
+                            <form method="POST" action="{{ route('admin.roles.permissions', $role->id) }}">
+                                @csrf
+                                <div class="sm:col-span-6">
+
+                                    <x-input-label for="permission" :value="__('Permission')"/>
+
+                                    <select id="permission" name="permission" autocomplete="permission-name"
+                                            class="mt-1 mb-4 block w-full py-1 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                        @foreach ($permissions as $permission)
+                                            <option value="{{ $permission->name }}">{{ $permission->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <x-input-error :messages="$errors->get('permission')" class="mt-2"/>
+                                </div>
+
+                                <x-primary-button class="bg-green-600 hover:bg-green-500 text-white" type="submit">
+                                    Assign
+                                </x-primary-button>
+                            </form>
+                        </div>
+
+                        @if ($role->permissions)
+                            <div class="mt-2 mb-6 bg-gray-100 shadow border border-gray-300 rounded px-4 pt-2">
+                                <h3 class="mb-2 bg-gray-300 text-gray-800 px-4 py-1 -mt-2 -mx-4">Revoke Permissions</h3>
+                                <div class="flex space-x-4 flex-wrap">
+                                    @foreach ($role->permissions as $role_permission)
+                                        <form class="px-0 py-1 text-white rounded-md"
+                                              method="POST"
+                                              action="{{ route('admin.roles.permissions.revoke', [$role->id, $role_permission->id]) }}"
+                                              onsubmit="return confirm('Are you sure?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <x-danger-button type="submit">
+                                                {{ $role_permission->name }}
+                                            </x-danger-button>
+                                        </form>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+                    </section>
+
                 </div>
 
             </div>
+
         </div>
+    </div>
     </div>
 </x-app-layout>

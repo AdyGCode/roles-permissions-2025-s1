@@ -12,7 +12,7 @@
                 <div class="overflow-x-auto rounded border border-gray-300 shadow-sm">
 
                     <div class="flex flex-1 justify-between p-2 items-end bg-gray-200">
-                        <h2 class="text-2xl ">Roles</h2>
+                        <h2 class="text-2xl ">Permissions</h2>
                         <a href="{{ route('admin.permissions.create') }}"
                            class="rounded bg-green-500 text-white hover:bg-white hover:text-green-500 border-green-500 px-4 py-2">
                             New Permission
