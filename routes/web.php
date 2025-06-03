@@ -31,7 +31,12 @@ Route::name('admin.')
         Route::get('/', [StaticPageController::class, 'admin'])
             ->name('index');
 
+        Route::get('/roles/{role}/delete', [RoleController::class, 'delete'])
+            ->name('roles.delete');
         Route::resource('/roles', RoleController::class);
+
+        Route::get('/permissions/{role}/delete', [PermissionController::class, 'delete'])
+            ->name('permissions.delete');
         Route::resource('/permissions', PermissionController::class);
 
     });

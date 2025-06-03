@@ -10,6 +10,15 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-8">
 
                 <div class="overflow-x-auto rounded border border-gray-300 shadow-sm">
+
+                    <div class="flex flex-1 justify-between p-2 items-end bg-gray-200">
+                        <h2 class="text-2xl ">Roles</h2>
+                        <a href="{{ route('admin.permissions.create') }}"
+                           class="rounded bg-green-500 text-white hover:bg-white hover:text-green-500 border-green-500 px-4 py-2">
+                            New Permission
+                        </a>
+                    </div>
+
                     <table class="min-w-full divide-y-2 divide-gray-200">
 
                         <thead class="ltr:text-left rtl:text-right">
@@ -24,7 +33,6 @@
                             <tr class="*:text-gray-900 *:first:font-medium">
                                 <td class="px-3 py-2 whitespace-nowrap">{{ $permission->name }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap">
-                                    Details
                                     Edit
                                     Remove
                                 </td>
