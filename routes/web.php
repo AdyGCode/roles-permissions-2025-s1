@@ -1,8 +1,10 @@
 <?php
 
-use App\Http\Controllers\PermissionController;
+
+use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StaticPageController;
 use Illuminate\Support\Facades\Route;
 
@@ -44,6 +46,12 @@ Route::name('admin.')
             ->name('permissions.delete');
         Route::resource('/permissions', PermissionController::class);
 
+        Route::post('users/{user}/delete', [UserController::class, "delete"])
+            ->name('users.delete');
+
+        Route::resource('users',
+            UserController::class);
+;
     });
 
 Route::middleware('auth')->group(function () {
