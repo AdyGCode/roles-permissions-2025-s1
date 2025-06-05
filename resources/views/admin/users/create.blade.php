@@ -8,6 +8,8 @@
         </h2>
         </a>
 
+        <div class="flex space-x-4">
+
         <a href="{{ route('admin.users.create') }}"
            class="text-green-800 hover:text-green-100
                  bg-gray-100 hover:bg-green-800
@@ -18,6 +20,7 @@
             New User
             <i class="fa-solid fa-user-plus"></i>
         </a>
+    </div>
 
     </x-slot>
 
@@ -90,14 +93,18 @@
                                               rounded-md shadow-sm"
                                         type="text"
                                         name="role"
-                                        :value="old('role')"
                                         required autofocus autocomplete="role">
-                                    <option>
-                                        Role will be implemented with Roles & Permissions
-                                    </option>
+
+                                    @foreach ($roles as $role)
+                                        <option value="{{ $role->id }}" @if((old('role')??0)=== $role->id) selected @endif>
+                                            {{ $role->name }}
+                                        </option>
+                                    @endforeach
+
                                 </select>
 
                                 <x-input-error :messages="$errors->get('role')" class="mt-2"/>
+
                             </div>
 
 

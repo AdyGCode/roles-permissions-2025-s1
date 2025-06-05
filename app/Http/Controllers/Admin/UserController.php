@@ -11,6 +11,8 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use function PHPUnit\Framework\isNull;
 
 
@@ -54,7 +56,7 @@ class UserController extends Controller
                 'name' => ['required', 'min:2', 'max:192',],
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class . ',email',],
                 'password' => ['required', 'confirmed', Rules\Password::defaults()],
-                'role' => ['nullable',],
+                'role' => ['required','int','exists:roles,id',],
             ]);
 
             $user = User::create([
@@ -62,6 +64,8 @@ class UserController extends Controller
                 'email' => Str::lower($validated['email']),
                 'password' => Hash::make($validated['password']),
             ]);
+
+            $user->roles()->attach($validated['role']);
 
         } catch (ValidationException $e) {
 
@@ -95,8 +99,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        // TODO: Update when we add Roles & Permissions
-        $roles = Collection::empty();
+        $roles = Role::orderBy('name')->get();
 
         return view('admin.users.create', compact(['roles',]));
     }
@@ -117,9 +120,16 @@ class UserController extends Controller
     public function edit(User $user)
     {
         // TODO: Update when we add Roles & Permissions
-        $roles = Collection::empty();
 
-        return view('admin.users.edit', compact(['roles', 'user',]));
+        $roles = Role::all();
+        $permissions = Permission::all();
+        $userRoles = $user->roles()->get();
+
+        $roles  = $roles->diffUsing($userRoles, function ($a, $b) {
+            return $a->id <=> $b->id; // Compare by 'id'
+        });
+
+        return view('admin.users.edit', compact(['roles', 'user','userRoles','permissions',]));
     }
 
     /**
@@ -234,4 +244,58 @@ class UserController extends Controller
         return to_route('admin.users.index');
 
     }
+
+    public function giveRole(Request $request, User $user)
+    {
+        if ($user->hasRole($request->role)) {
+
+            flash()->warning('User already has this role.',
+                [
+                    'position' => 'top-center',
+                    'timeout' => 5000,
+                ],
+                'Role Exists');
+
+            return back();
+        }
+
+        $user->roles()->attach($request->role);
+
+        flash()->success('User has been granted the role.',
+            [
+                'position' => 'top-center',
+                'timeout' => 5000,
+            ],
+            'Role Added');
+
+        return back();
+    }
+
+    public function revokeRole(Request $request, User $user)
+    {
+        if ($user->hasRole($request->role)) {
+
+            $user->detatch($request->role);
+
+            flash()->success('Role has been removed from the user.',
+                [
+                    'position' => 'top-center',
+                    'timeout' => 5000,
+                ],
+                'Role Revoked');
+
+            return back();
+        }
+
+        flash()->warning('User did not have this role.',
+            [
+                'position' => 'top-center',
+                'timeout' => 5000,
+            ],
+            'Role Did Not Exist');
+
+        return back();
+    }
+
+
 }

@@ -34,17 +34,23 @@ Route::name('admin.')
             ->name('index');
 
 
-        Route::post('/roles/{role}/permissions', [RoleController::class, 'givePermission'])
+        Route::post('roles/{role}/permissions', [RoleController::class, 'givePermission'])
             ->name('roles.permissions');
-        Route::delete('/roles/{role}/permissions/{permission}', [RoleController::class, 'revokePermission'])
+        Route::delete('roles/{role}/permissions/{permission}', [RoleController::class, 'revokePermission'])
             ->name('roles.permissions.revoke');
-        Route::get('/roles/{role}/delete', [RoleController::class, 'delete'])
+        Route::get('roles/{role}/delete', [RoleController::class, 'delete'])
             ->name('roles.delete');
         Route::resource('/roles', RoleController::class);
 
-        Route::get('/permissions/{role}/delete', [PermissionController::class, 'delete'])
+        Route::get('permissions/{role}/delete', [PermissionController::class, 'delete'])
             ->name('permissions.delete');
         Route::resource('/permissions', PermissionController::class);
+
+
+        Route::post('users/{user}/roles', [UserController::class, 'giveRole'])
+            ->name('users.roles');
+        Route::delete('users/{user}/roles', [UserController::class, 'revokeRole'])
+            ->name('users.roles.revoke');
 
         Route::post('users/{user}/delete', [UserController::class, "delete"])
             ->name('users.delete');

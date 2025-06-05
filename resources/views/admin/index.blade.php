@@ -21,9 +21,9 @@
                     <p>This could be a card with statistics about Permissions</p>
                 </a>
 
-                <a href="{{ route('admin.index') }}"
+                <a href="{{ route('admin.users.index') }}"
                    class="border p-6 hover:bg-blue-500 hover:text-white grow">
-                    <h3 class="text-xl">Another Admin Link</h3>
+                    <h3 class="text-xl">Users</h3>
                     <p>This could be a card with statistics about Permissions</p>
                 </a>
 

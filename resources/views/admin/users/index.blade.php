@@ -2,42 +2,45 @@
 
     <x-slot name="header">
         <a href="{{route('admin.users.index')}}" class="grow">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Users') }}
-        </h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Users') }}
+            </h2>
         </a>
 
-        <a href="{{ route('admin.users.create') }}"
-           class="text-green-800 hover:text-green-100
+        <div class="flex space-x-4">
+            <a href="{{ route('admin.users.create') }}"
+               class="text-green-800 hover:text-green-100
                  bg-gray-100 hover:bg-green-800
                  border border-gray-300
                  rounded-lg
                  transition ease-in-out duration-200
                  px-4 py-1">
-            <i class="fa-solid fa-user-plus pr-1 aria-hidden:true"></i>
-            New User
-        </a>
+                <i class="fa-solid fa-user-plus pr-1 aria-hidden:true"></i>
+                New User
+            </a>
 
-        <form action="{{ route('admin.users.index') }}" method="GET" class="flex flex-row gap-0">
-            <x-text-input id="search"
-                          type="text"
-                          name="search"
-                          class="border border-gray-200 rounded-r-none shadow-transparent"
-                          :value="$search??''"
-            />
+            <form action="{{ route('admin.users.index') }}" method="GET" class="flex flex-row gap-0">
+                <x-text-input id="search"
+                              type="text"
+                              name="search"
+                              class="border border-gray-200 rounded-r-none shadow-transparent"
+                              :value="$search??''"
+                />
 
-            <button type="submit"
-                    class="text-gray-800 hover:text-gray-100
+                <button type="submit"
+                        class="text-gray-800 hover:text-gray-100
                          bg-gray-100 hover:bg-gray-800
                            border border-gray-300
                            rounded-lg
                            transition ease-in-out duration-200
                            px-4 py-1
                            rounded-l-none">
-                <i class="fa-solid fa-magnifying-glass pr-1 aria-hidden:true"></i>
-                Search
-            </button>
-        </form>
+                    <i class="fa-solid fa-magnifying-glass pr-1 aria-hidden:true"></i>
+                    Search
+                </button>
+            </form>
+
+        </div>
 
     </x-slot>
 
@@ -72,11 +75,14 @@
                                 {{ $user->created_at->format('j M Y') }}
                             </p>
 
-                            <p class="col-span-1">
-                                <span class="text-xs bg-gray-800 text-gray-100 rounded-full px-2 py-0.5">
-                                    Role
-                                </span>
+                            <p class="col-span-1 space-x-1 ">
+                                @foreach($user->roles as $role)
+                                    <span
+                                        class="text-xs bg-gray-800 text-gray-100 rounded-full px-2 py-0.5"
+                                    >{{ $role->name }}</span>
+                                @endforeach
                             </p>
+
                             <!-- Only Admin and Staff access these options -->
                             <form method="POST"
                                   class="col-span-4 flex border border-gray-300 rounded-lg px-0 overflow-hidden"

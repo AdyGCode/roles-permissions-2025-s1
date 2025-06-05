@@ -8,6 +8,8 @@
         </h2>
         </a>
 
+        <div class="flex space-x-4">
+
         <a href="{{ route('admin.users.create') }}"
            class="text-green-800 hover:text-green-100
                  bg-gray-100 hover:bg-green-800
@@ -18,6 +20,7 @@
             New User
             <i class="fa-solid fa-user-plus"></i>
         </a>
+        </div>
 
     </x-slot>
 
@@ -84,26 +87,6 @@
                                 <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2"/>
                             </div>
 
-
-                            <div class="flex flex-col">
-                                <x-input-label for="Role" :value="__('Role')"/>
-                                <select id="Role"
-                                        class="block mt-1 w-full px-2 py-1 border-gray-300
-                                            focus:outline-indigo-500 focus:outline-2 focus:ring-2 focus:ring-indigo-500
-                                              rounded-md shadow-sm"
-                                        type="text"
-                                        name="role"
-                                        :value="old('role')??$user->role"
-                                        required autofocus autocomplete="role">
-                                    <option>
-                                        Role will be implemented with Roles & Permissions
-                                    </option>
-                                </select>
-
-                                <x-input-error :messages="$errors->get('role')" class="mt-2"/>
-                            </div>
-
-
                             <div class="flex flex-row gap-6  ">
 
                                 <a href="{{ route('admin.users.index') }}"
@@ -120,15 +103,102 @@
                                         class="bg-gray-100 hover:bg-green-500
                                              text-green-800 hover:text-gray-100 text-center
                                              border border-gray-300
-                                          transition ease-in-out duration-300
-                                          p-2 min-w-32 rounded">
+                                             transition ease-in-out duration-300
+                                             p-2 min-w-32 rounded">
                                     <i class="fa-solid fa-save text-sm"></i>
                                     {{ __('Save') }}
                                 </button>
                             </div>
                         </form>
 
-                    </section>
+                        <section class="grid grid-cols-2 space-y-2 mt-4 px-6  space-x-8">
+
+                            <div class="-mx-6 bg-gray-100 col-span-2 px-6 pb-2">
+
+                                <h3 class="-mx-6 px-6 py-2 text-lg font-semibold col-span-2 bg-gray-100">
+                                    Current Role(s)
+                                </h3>
+
+                                <div class="flex flex-row gap-1 flex-wrap pb-2">
+
+                                    @forelse($userRoles as $role)
+                                        <p class="text-xs bg-gray-700 text-gray-100 p-1 px-2 rounded-full whitespace-nowrap">{{ $role->name }}</p>
+                                    @empty
+                                        <p class="text-gray-600 text-sm">
+                                            No Roles
+                                        </p>
+                                    @endforelse
+
+                                </div>
+                            </div>
+
+
+                            <div class="mt-2 mb-6 bg-gray-100 shadow border border-gray-300 rounded p-4 pt-2">
+
+                                <h3 class="mb-2 bg-gray-300 text-gray-800 px-4 py-1 -mt-2 -mx-4">Add roles</h3>
+
+                                <div class="flex space-x-4 flex-wrap">
+
+                                @foreach ($roles as $role)
+
+                                    <form class="px-0 py-1 text-white rounded-md"
+                                          method="POST"
+                                          action="{{ route('admin.users.roles',
+                                                            [$user]) }}"
+                                          onsubmit="return confirm('Are you sure?');">
+
+                                        @csrf
+
+                                        <input type="hidden" name="role" value="{{$role->id}}"/>
+
+                                        <x-primary-button type="submit" class="bg-green-600">
+                                            {{ $role->name }}
+                                        </x-primary-button>
+
+                                    </form>
+
+                                @endforeach
+
+                                </div>
+                            </div>
+
+                            @if ($userRoles)
+
+                                <div class="mt-2 mb-6 bg-gray-100 shadow border border-gray-300 rounded px-4 pt-2">
+                                    <h3 class="mb-2 bg-gray-300 text-gray-800 px-4 py-1 -mt-2 -mx-4">
+                                        Revoke Role
+                                    </h3>
+
+                                    <div class="flex space-x-6 flex-wrap">
+
+                                        @foreach ($userRoles as $currentRole)
+
+                                            <form class="px-0 py-1 text-white rounded-md"
+                                                  method="POST"
+                                                  action="{{ route('admin.users.roles.revoke',
+                                                            [$user->id]) }}"
+                                                  onsubmit="return confirm('Are you sure?');">
+
+                                                @csrf
+                                                @method('DELETE')
+
+                                                <input type="hidden" name="role" value="{{$currentRole->id}}"/>
+
+                                                <x-danger-button type="submit" class="px-2! py-1!">
+                                                    {{ $currentRole->name }}
+                                                </x-danger-button>
+
+                                            </form>
+
+                                        @endforeach
+
+                                    </div>
+                                </div>
+
+                            @endif
+
+                        </section>
+
 
                 </article>
 

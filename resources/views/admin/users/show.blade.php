@@ -7,6 +7,8 @@
             </h2>
         </a>
 
+        <div class="flex space-x-4">
+
         <a href="{{ route('admin.users.create') }}"
            class="text-green-800 hover:text-green-100
                  bg-gray-100 hover:bg-green-800
@@ -17,6 +19,8 @@
             New User
             <i class="fa-solid fa-user-plus"></i>
         </a>
+
+        </div>
 
     </x-slot>
 
