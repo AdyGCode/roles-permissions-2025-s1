@@ -27,7 +27,7 @@ Route::name('static.')->group(function () {
 
 Route::name('admin.')
     ->prefix('admin')
-    ->middleware(['auth', 'verified', 'role:Admin|Staff|Super-Admin'])
+    ->middleware(['auth', 'verified', 'role:staff|admin|super-admin'])
     ->group(function () {
 
         Route::get('/', [StaticPageController::class, 'admin'])
@@ -37,14 +37,15 @@ Route::name('admin.')
             ->name('roles.permissions');
         Route::delete('roles/{role}/permissions/{permission}', [RoleController::class, 'revokePermission'])
             ->name('roles.permissions.revoke');
+
         Route::get('roles/{role}/delete', [RoleController::class, 'delete'])
             ->name('roles.delete');
+
         Route::resource('/roles', RoleController::class);
 
         Route::get('permissions/{permission}/delete', [PermissionController::class, 'delete'])
             ->name('permissions.delete');
         Route::resource('/permissions', PermissionController::class);
-
 
         Route::post('users/{user}/roles', [UserController::class, 'giveRole'])
             ->name('users.roles');
@@ -56,7 +57,6 @@ Route::name('admin.')
 
         Route::resource('users',
             UserController::class);
-;
     });
 
 Route::middleware('auth')->group(function () {

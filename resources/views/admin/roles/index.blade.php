@@ -13,10 +13,13 @@
 
                     <div class="flex flex-1 justify-between p-2 items-end bg-gray-200">
                         <h2 class="text-2xl ">Roles</h2>
+
+                        @can('add role')
                         <a href="{{ route('admin.roles.create') }}"
                            class="rounded bg-green-500 text-white hover:bg-white hover:text-green-500 border-green-500 px-4 py-2">
                             New Role
                         </a>
+                            @endcan
                     </div>
 
                     <table class="min-w-full divide-y-2 divide-gray-200">

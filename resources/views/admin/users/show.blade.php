@@ -39,7 +39,7 @@
 
                     <section class="px-4 flex flex-col text-gray-800">
 
-                        <div class="grid grid-rows-3 my-6 ">
+                        <div class="grid grid-rows-3 mt-6 ">
                             <p class="text-gray-500 text-sm ">Name:</p>
                             <p class="w-full ml-4">
                                 {{ $user->name ?? "No Name provided" }}

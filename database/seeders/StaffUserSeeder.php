@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Laravel\Prompts\Output\ConsoleOutput;
+use Symfony\Component\Console\Helper\ProgressBar;
 
 class StaffUserSeeder extends Seeder
 {
@@ -12,22 +14,53 @@ class StaffUserSeeder extends Seeder
      */
     public function run(): void
     {
-        $seedUser = [
 
-            'id' => 200,
-            'name' => 'Staff User',
-            'email' => 'staff@example.com',
-            'password' => 'Password1',
-            'email_verified_at' => null,
+        $seedStaffUsers = [
+            [
+                'id' => 200,
+                'name' => 'Staff User',
+                'email' => 'staff@example.com',
+                'password' => 'Password1',
+                'email_verified_at' => now(),
+                'roles' => ['staff',],
+            ],
+            [
+                'id' => 201,
+                'name' => 'Staff User 2',
+                'email' => 'staff2@example.com',
+                'password' => 'Password1',
+                'email_verified_at' => now(),
+                'roles' => ['staff', 'client'],
+            ],
+            [
+                'id' => 203,
+                'name' => 'Staff User 3',
+                'email' => 'staff3@example.com',
+                'password' => 'Password1',
+                'email_verified_at' => now(),
+                'roles' => ['staff'],
+            ],
         ];
 
-        $staffUser = User::updateOrCreate(
-            ['id' => $seedUser['id']],
-            $seedUser
-        );
+        $output = new ConsoleOutput();
+        $progress = new ProgressBar($output, count($seedStaffUsers));
+        $progress->start();
 
+        foreach ($seedStaffUsers as $user) {
+            $roles = $user['roles'] ?? null;
+            unset($user['roles']);
 
-        $staffUser->assignRole('Staff');
-//        $staffUser->syncPermissions();
+            $staffUser = User::updateOrCreate(
+                ['id' => $user['id']],
+                $user
+            );
+
+            $staffUser->assignRole($roles);
+            $progress->advance();
+        }
+
+        $progress->finish();
+        $output->writeln("");
+
     }
 }

@@ -30,6 +30,7 @@
 
                     </div>
 
+                    @can('delete permission')
                     <form action="{{ route('admin.permissions.destroy', $permission) }}"
                           method="POST"
                           class="p-6 flex flex-col space-y-4">
@@ -39,7 +40,7 @@
 
                         <div>
                             <p>Please confirm you wish to delete the permission:
-                                <code class="text-red-500 font-semibold">{{$permission->name}}</code>
+                                <code class="text-red-500 font-semibold">{{  $permission->name }}</code>
                                 by entering it below:</p>
                         </div>
 
@@ -67,12 +68,16 @@
                                 Delete
                             </x-primary-button>
 
-                            <x-link-button href="{{route('admin.permissions.index')}}">
+                            <x-link-button href="{{  route('admin.permissions.index') }}">
                                 Cancel
                             </x-link-button>
 
                         </div>
                     </form>
+
+                    @else
+                        <p class="p-6 bg-red-500 text-white">You are not able to delete permissions</p>
+                    @endcan
 
                 </div>
 

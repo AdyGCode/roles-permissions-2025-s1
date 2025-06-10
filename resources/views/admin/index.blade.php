@@ -13,7 +13,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg grid grid-cols-3 gap-8 p-8">
 
-                @role('Admin|Super-Admin')
+                @role('staff|admin|super-admin')
                 <a href="{{ route('admin.roles.index') }}"
                    class="border p-6 hover:bg-blue-500 hover:text-white grow">
                     <h3 class="text-xl">Roles</h3>
@@ -21,7 +21,7 @@
                 </a>
                 @endrole
 
-                @role('Admin|Super-Admin')
+                @role('staff|admin|super-admin')
                 <a href="{{ route('admin.permissions.index') }}"
                    class="border p-6 hover:bg-blue-500 hover:text-white grow">
                     <h3 class="text-xl">Permissions</h3>
@@ -29,7 +29,7 @@
                 </a>
                 @endrole
 
-                @role('Staff|Admin|Super-Admin')
+                @role('staff|admin|super-admin')
                 <a href="{{ route('admin.users.index') }}"
                    class="border p-6 hover:bg-blue-500 hover:text-white grow">
                     <h3 class="text-xl">Users</h3>
@@ -37,7 +37,7 @@
                 </a>
                 @endrole
 
-                @role('Staff|Admin|Super-Admin')
+                @role('staff|admin|super-admin')
                 <a href="{{ route('admin.index') }}"
                    class="border p-6 hover:bg-blue-500 hover:text-white grow">
                     <h3 class="text-xl">Another Admin Link</h3>

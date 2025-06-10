@@ -3,24 +3,26 @@
     <x-slot name="header">
 
         <a href="{{route('admin.users.index')}}" class="grow">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight grow">
-            {{ __('Users') }}
-        </h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight grow">
+                {{ __('Users') }}
+            </h2>
         </a>
 
         <div class="flex space-x-4">
 
-        <a href="{{ route('admin.users.create') }}"
-           class="text-green-800 hover:text-green-100
+            @can('add user')
+                <a href="{{ route('admin.users.create') }}"
+                   class="text-green-800 hover:text-green-100
                  bg-gray-100 hover:bg-green-800
                  border border-gray-300
                  rounded-lg
                  transition ease-in-out duration-200
                  px-4 py-1">
-            New User
-            <i class="fa-solid fa-user-plus"></i>
-        </a>
-    </div>
+                    New User
+                    <i class="fa-solid fa-user-plus"></i>
+                </a>
+            @endcan
+        </div>
 
     </x-slot>
 
@@ -37,100 +39,106 @@
                     </header>
 
                     <section>
+                        @can('add user')
 
-                        <form method="POST"
-                              class="my-4 px-4 gap-4 flex flex-col text-gray-800"
-                              action="{{ route('admin.users.store') }}">
+                            <form method="POST"
+                                  class="my-4 px-4 gap-4 flex flex-col text-gray-800"
+                                  action="{{ route('admin.users.store') }}">
 
-                            @csrf
+                                @csrf
 
-                            <div class="flex flex-col">
-                                <x-input-label for="name" :value="__('Name')"/>
-                                <x-text-input id="name" class="block mt-1 w-full"
-                                              type="text"
-                                              name="name"
-                                              :value="old('name')"
-                                              required autofocus autocomplete="name"/>
-                                <x-input-error :messages="$errors->get('name')" class="mt-2"/>
-                            </div>
+                                <div class="flex flex-col">
+                                    <x-input-label for="name" :value="__('Name')"/>
+                                    <x-text-input id="name" class="block mt-1 w-full"
+                                                  type="text"
+                                                  name="name"
+                                                  :value="old('name')"
+                                                  required autofocus autocomplete="name"/>
+                                    <x-input-error :messages="$errors->get('name')" class="mt-2"/>
+                                </div>
 
-                            <div class="flex flex-col">
-                                <x-input-label for="Email" :value="__('Email')"/>
-                                <x-text-input id="Email" class="block mt-1 w-full"
-                                              type="text"
-                                              name="email"
-                                              :value="old('email')"
-                                              required autofocus autocomplete="email"/>
-                                <x-input-error :messages="$errors->get('email')" class="mt-2"/>
-                            </div>
+                                <div class="flex flex-col">
+                                    <x-input-label for="Email" :value="__('Email')"/>
+                                    <x-text-input id="Email" class="block mt-1 w-full"
+                                                  type="text"
+                                                  name="email"
+                                                  :value="old('email')"
+                                                  required autofocus autocomplete="email"/>
+                                    <x-input-error :messages="$errors->get('email')" class="mt-2"/>
+                                </div>
 
-                            <div class="flex flex-col">
-                                <x-input-label for="Password" :value="__('Password')"/>
-                                <x-text-input id="Password" class="block mt-1 w-full"
-                                              type="text"
-                                              name="password"
-                                              :value="old('password')"
-                                              required autofocus/>
-                                <x-input-error :messages="$errors->get('password')" class="mt-2"/>
-                            </div>
+                                <div class="flex flex-col">
+                                    <x-input-label for="Password" :value="__('Password')"/>
+                                    <x-text-input id="Password" class="block mt-1 w-full"
+                                                  type="text"
+                                                  name="password"
+                                                  :value="old('password')"
+                                                  required autofocus/>
+                                    <x-input-error :messages="$errors->get('password')" class="mt-2"/>
+                                </div>
 
-                            <div class="flex flex-col">
-                                <x-input-label for="Password_Confirmation" :value="__('Confirm Password')"/>
-                                <x-text-input id="Password_Confirmation" class="block mt-1 w-full"
-                                              type="text"
-                                              name="password_confirmation"
-                                              :value="old('password_confirmation')"
-                                              required autofocus/>
-                                <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2"/>
-                            </div>
+                                <div class="flex flex-col">
+                                    <x-input-label for="Password_Confirmation" :value="__('Confirm Password')"/>
+                                    <x-text-input id="Password_Confirmation" class="block mt-1 w-full"
+                                                  type="text"
+                                                  name="password_confirmation"
+                                                  :value="old('password_confirmation')"
+                                                  required autofocus/>
+                                    <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2"/>
+                                </div>
 
 
-                            <div class="flex flex-col">
-                                <x-input-label for="Role" :value="__('Role')"/>
-                                <select id="Role"
-                                        class="block mt-1 w-full px-2 py-1 border-gray-300
+                                <div class="flex flex-col">
+                                    <x-input-label for="Role" :value="__('Role')"/>
+                                    <select id="Role"
+                                            class="block mt-1 w-full px-2 py-1 border-gray-300
                                             focus:outline-indigo-500 focus:outline-2 focus:ring-2 focus:ring-indigo-500
                                               rounded-md shadow-sm"
-                                        type="text"
-                                        name="role"
-                                        required autofocus autocomplete="role">
+                                            type="text"
+                                            name="role"
+                                            required autofocus autocomplete="role">
 
-                                    @foreach ($roles as $role)
-                                        <option value="{{ $role->id }}" @if((old('role')??0)=== $role->id) selected @endif>
-                                            {{ $role->name }}
-                                        </option>
-                                    @endforeach
+                                        @foreach ($roles as $role)
+                                            <option value="{{ $role->id }}"
+                                                    @if((old('role')??0)=== $role->id) selected @endif>
+                                                {{ $role->name }}
+                                            </option>
+                                        @endforeach
 
-                                </select>
+                                    </select>
 
-                                <x-input-error :messages="$errors->get('role')" class="mt-2"/>
+                                    <x-input-error :messages="$errors->get('role')" class="mt-2"/>
 
-                            </div>
+                                </div>
 
 
-                            <div class="flex flex-row gap-6  ">
+                                <div class="flex flex-row gap-6  ">
 
-                                <a href="{{ route('admin.users.index') }}"
-                                   class="bg-gray-100 hover:bg-blue-500
+                                    <a href="{{ route('admin.users.index') }}"
+                                       class="bg-gray-100 hover:bg-blue-500
                                           text-blue-800 hover:text-gray-100 text-center
                                           border border-gray-300
                                           transition ease-in-out duration-300
                                           p-2 min-w-24 rounded">
-                                    <i class="fa-solid fa-times inline-block"></i>
-                                    {{ __('Cancel') }}
-                                </a>
+                                        <i class="fa-solid fa-times inline-block"></i>
+                                        {{ __('Cancel') }}
+                                    </a>
 
-                                <button type="submit"
-                                        class="bg-gray-100 hover:bg-green-500
+                                    <button type="submit"
+                                            class="bg-gray-100 hover:bg-green-500
                                              text-green-800 hover:text-gray-100 text-center
                                              border border-gray-300
                                           transition ease-in-out duration-300
                                           p-2 min-w-32 rounded">
-                                    <i class="fa-solid fa-save text-sm"></i>
-                                    {{ __('Save') }}
-                                </button>
-                            </div>
-                        </form>
+                                        <i class="fa-solid fa-save text-sm"></i>
+                                        {{ __('Save') }}
+                                    </button>
+                                </div>
+                            </form>
+
+                        @else
+                            <p class="p-6 bg-red-500 text-white">You are not able to add users</p>
+                        @endcan
 
                     </section>
 

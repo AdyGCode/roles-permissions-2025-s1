@@ -20,14 +20,17 @@
                                 All Roles
                             </a>
 
+                            @can('add role')
                             <a href="{{ route('admin.roles.create') }}"
                                class="rounded bg-green-500 text-white hover:bg-white hover:text-green-500 border-green-500 px-4 py-2">
                                 New Role
                             </a>
+                            @endcan
+
                         </div>
 
                     </div>
-
+@can('add role')
                     <form action="{{ route('admin.roles.store') }}"
                           method="POST"
                           class="p-6 flex flex-col space-y-4">
@@ -53,6 +56,10 @@
                             </x-link-button>
                         </div>
                     </form>
+
+                    @else
+                        <p class="p-6 bg-red-500 text-white">You are not able to add roles</p>
+                    @endcan
 
                 </div>
 

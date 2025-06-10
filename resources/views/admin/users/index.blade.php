@@ -90,7 +90,7 @@
                             </p>
 
                             <!-- Only Admin and Staff access these options -->
-                            @role('Admin|Staff')
+                            @role('staff|admin|super-admin')
                             <form method="POST"
                                   class="col-span-4 space-x-2 flex px-0 overflow-hidden"
                                   action="{{ route('admin.users.delete', $user) }}">

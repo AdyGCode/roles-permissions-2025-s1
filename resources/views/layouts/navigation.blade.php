@@ -29,7 +29,7 @@
                             {{ __('Dashboard') }}
                         </x-nav-link>
 
-                        @hasrole(['Admin','Staff','Super Admin'])
+                        @hasrole('admin|staff|super-admin')
                         <x-nav-link :href="route('admin.index')"
                                     :active="request()->routeIs('admin.*')">
                             <i class="fa-solid fa-user-tie mr-1"></i>
@@ -145,13 +145,13 @@
                     {{ __('Dashboard') }}
                 </x-responsive-nav-link>
 
-                @role('admin')
+                @hasrole('staff|admin|super-admin')
                 <x-responsive-nav-link :href="route('admin.index')"
-                            :active="request()->routeIs('admin.*')">
+                                       :active="request()->routeIs('admin.*')">
                     <i class="fa-solid fa-user-tie mr-1"></i>
                     {{ __('Admin') }}
                 </x-responsive-nav-link>
-                @endrole
+                @endhasrole
 
                 <x-responsive-nav-link :href="route('static.dashboard')" :active="request()->routeIs('other.*')">
                     <i class="fa-solid fa-link mr-1"></i>

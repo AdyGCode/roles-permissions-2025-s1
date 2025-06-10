@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -24,6 +23,10 @@ class UserController extends Controller
     public function index(Request $request)
     {
         // TODO: Only allow authorised users (Admin/Staff Roles)
+
+        if (!auth()->user()->hasRole('staff|admin|super-admin')) {
+            abort(403, 'Unauthorized action.');
+        }
 
         $validated = $request->validate([
             'search' => ['nullable', 'string',]
@@ -56,7 +59,7 @@ class UserController extends Controller
                 'name' => ['required', 'min:2', 'max:192',],
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class . ',email',],
                 'password' => ['required', 'confirmed', Rules\Password::defaults()],
-                'role' => ['required','int','exists:roles,id',],
+                'role' => ['required', 'int', 'exists:roles,id',],
             ]);
 
             $user = User::create([
@@ -125,11 +128,11 @@ class UserController extends Controller
         $permissions = Permission::all();
         $userRoles = $user->roles()->get();
 
-        $roles  = $roles->diffUsing($userRoles, function ($a, $b) {
+        $roles = $roles->diffUsing($userRoles, function ($a, $b) {
             return $a->id <=> $b->id; // Compare by 'id'
         });
 
-        return view('admin.users.edit', compact(['roles', 'user','userRoles','permissions',]));
+        return view('admin.users.edit', compact(['roles', 'user', 'userRoles', 'permissions',]));
     }
 
     /**
@@ -247,7 +250,26 @@ class UserController extends Controller
 
     public function giveRole(Request $request, User $user)
     {
-        if ($user->hasRole($request->role)) {
+        try {
+
+            $validated = $request->validate([
+                'role' => ['required', 'exists:roles,id'],
+            ]);
+
+        } catch (ValidationException $e) {
+
+            flash()->error('The role you attempted to add does not exist.',
+                [
+                    'position' => 'top-center',
+                    'timeout' => 5000,
+                ],
+                'Add Role Failed');
+
+            return back()->withErrors($e->validator)->withInput();
+
+        }
+
+        if ($user->hasRole($validated['role'])) {
 
             flash()->warning('User already has this role.',
                 [
@@ -259,7 +281,7 @@ class UserController extends Controller
             return back();
         }
 
-        $user->roles()->attach($request->role);
+        $user->roles()->attach($validated['role']);
 
         flash()->success('User has been granted the role.',
             [
@@ -273,9 +295,11 @@ class UserController extends Controller
 
     public function revokeRole(Request $request, User $user)
     {
-        if ($user->hasRole($request->role)) {
+        $roleId = Role::whereId($request->role)->get();
 
-            $user->detatch($request->role);
+        if ($user->hasRole($roleId)) {
+
+            $user->roles()->detach($roleId);
 
             flash()->success('Role has been removed from the user.',
                 [

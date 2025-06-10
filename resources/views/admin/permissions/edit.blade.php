@@ -52,11 +52,13 @@
                                 <x-primary-button>
                                     Save
                                 </x-primary-button>
+
                                 <x-link-button href="{{route('admin.permissions.index')}}">
-                                Cancel
-                            </x-link-button>
-                        </div>
-                    </form>
+                                    Cancel
+                                </x-link-button>
+
+                            </div>
+                        </form>
 
                     @else
                         <p class="p-6 bg-red-500 text-white">You are not able to edit permissions</p>
