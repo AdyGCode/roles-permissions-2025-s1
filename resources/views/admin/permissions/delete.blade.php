@@ -20,10 +20,12 @@
                                 All Permissions
                             </a>
 
-                            <a href="{{ route('admin.permissions.create') }}"
-                               class="rounded bg-green-500 text-white hover:bg-white hover:text-green-500 border-green-500 px-4 py-2">
-                                New Permission
-                            </a>
+                            @can('add permission')
+                                <a href="{{ route('admin.permissions.create') }}"
+                                   class="rounded bg-green-500 text-white hover:bg-white hover:text-green-500 border-green-500 px-4 py-2">
+                                    New Permission
+                                </a>
+                            @endcan
                         </div>
 
                     </div>

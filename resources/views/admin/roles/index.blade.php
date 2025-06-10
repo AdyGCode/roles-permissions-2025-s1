@@ -40,18 +40,21 @@
 
                                 <td class="px-3 py-2 whitespace-nowrap">
 
-                                    <x-link-button
-                                        class="hover:bg-amber-400 focus:bg-amber-400 active:bg-amber-400"
-                                        href="{{ route('admin.roles.edit', $role) }}">
-                                        Edit
-                                    </x-link-button>
+                                    @can('edit role')
+                                        <x-link-button
+                                            class="hover:bg-amber-400 focus:bg-amber-400 active:bg-amber-400"
+                                            href="{{ route('admin.roles.edit', $role) }}">
+                                            Edit
+                                        </x-link-button>
+                                    @endcan
 
-                                    <x-link-button
-                                        class="hover:bg-red-500 focus:bg-red-400 active:bg-red-400 "
-                                        href="{{ route('admin.roles.delete', $role) }}">
-                                        Delete
-                                    </x-link-button>
-
+                                    @can('delete role')
+                                        <x-link-button
+                                            class="hover:bg-red-500 focus:bg-red-400 active:bg-red-400 "
+                                            href="{{ route('admin.roles.delete', $role) }}">
+                                            Delete
+                                        </x-link-button>
+                                    @endcan
                                 </td>
 
                             </tr>

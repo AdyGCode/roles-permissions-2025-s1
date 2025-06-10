@@ -13,23 +13,6 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $seedUsers = [
-// Admin now in the AdminUserSeeder
-//            [
-//                'id' => 100,
-//                'name' => 'Ad Ministrator',
-//                'email' => 'admin@example.com',
-//                'password' => 'Password1',
-//                'email_verified_at' => now(),
-//            ],
-//
-// Staff User is now in the Staff User Seeder
-//            [
-//                'id' => 200,
-//                'name' => 'Staff User',
-//                'email' => 'staff@example.com',
-//                'password' => 'Password1',
-//                'email_verified_at' => null,
-//            ],
 
             [
                 'id' => 201,
@@ -37,7 +20,7 @@ class UserSeeder extends Seeder
                 'email' => 'client@example.com',
                 'password' => 'Password1',
                 'email_verified_at' => null,
-                'role' => 'client',
+                'role' => 'Client',
             ],
 
             [
@@ -46,7 +29,6 @@ class UserSeeder extends Seeder
                 'email' => 'another@example.com',
                 'password' => 'Password1',
                 'email_verified_at' => null,
-
             ],
         ];
 
@@ -59,8 +41,8 @@ class UserSeeder extends Seeder
                 $user
             );
 
-            if ($role === 'client') {
-                $clientUser->assignRole('client');
+            if ($role === 'Client') {
+                $clientUser->assignRole('Client');
             }
         }
 

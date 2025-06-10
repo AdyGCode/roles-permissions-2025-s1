@@ -20,40 +20,47 @@
                                 All Permissions
                             </a>
 
-                            <a href="{{ route('admin.permissions.create') }}"
-                               class="rounded bg-green-500 text-white hover:bg-white hover:text-green-500 border-green-500 px-4 py-2">
-                                New Permission
-                            </a>
+                            @can('add permission')
+                                <a href="{{ route('admin.permissions.create') }}"
+                                   class="rounded bg-green-500 text-white hover:bg-white hover:text-green-500 border-green-500 px-4 py-2">
+                                    New Permission
+                                </a>
+                            @endcan
                         </div>
 
                     </div>
 
-                    <form action="{{ route('admin.permissions.update', $permission) }}"
-                          method="POST"
-                          class="p-6 flex flex-col space-y-4">
+                    @can('edit permission')
+                        <form action="{{ route('admin.permissions.update', $permission) }}"
+                              method="POST"
+                              class="p-6 flex flex-col space-y-4">
 
-                        @csrf
-                        @method('patch')
+                            @csrf
+                            @method('patch')
 
-                        <div>
-                            <x-input-label for="name" :value="__('Permission Name')"/>
+                            <div>
+                                <x-input-label for="name" :value="__('Permission Name')"/>
 
-                            <x-text-input id="name" class="block mt-1 w-full" type="name" name="name"
-                                          :value="old('name')??$permission->name" required/>
+                                <x-text-input id="name" class="block mt-1 w-full" type="name" name="name"
+                                              :value="old('name')??$permission->name" required/>
 
-                            <x-input-error :messages="$errors->get('name')" class="mt-2"/>
-                        </div>
+                                <x-input-error :messages="$errors->get('name')" class="mt-2"/>
+                            </div>
 
-                        <div class="flex flex-row space-x-4">
+                            <div class="flex flex-row space-x-4">
 
-                            <x-primary-button>
-                                Save
-                            </x-primary-button>
-                            <x-link-button href="{{route('admin.permissions.index')}}">
+                                <x-primary-button>
+                                    Save
+                                </x-primary-button>
+                                <x-link-button href="{{route('admin.permissions.index')}}">
                                 Cancel
                             </x-link-button>
                         </div>
                     </form>
+
+                    @else
+                        <p class="p-6 bg-red-500 text-white">You are not able to edit permissions</p>
+                    @endcan
 
                 </div>
 

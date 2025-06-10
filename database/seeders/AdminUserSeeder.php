@@ -12,6 +12,23 @@ class AdminUserSeeder extends Seeder
      */
     public function run(): void
     {
+
+        /* Super Administrator Account */
+        $seedSuperAdminUser = [
+            'id' => 99,
+            'name' => 'System Administrator',
+            'email' => 'systemadmin@example.com',
+            'password' => 'Password1',
+            'email_verified_at' => now(),
+        ];
+
+        $adminUser = User::updateOrCreate(
+            ['id' => $seedSuperAdminUser['id']],
+            $seedSuperAdminUser
+        );
+
+
+        /* Administrator Account */
         $seedUser = [
             'id' => 100,
             'name' => 'Ad Ministrator',
@@ -27,8 +44,8 @@ class AdminUserSeeder extends Seeder
         );
 
         $adminUser->assignRole([
-            'admin',
-            'staff',
+            'Admin',
+            'Staff',
         ]);
 
     }

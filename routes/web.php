@@ -27,12 +27,11 @@ Route::name('static.')->group(function () {
 
 Route::name('admin.')
     ->prefix('admin')
-    ->middleware(['auth', 'verified', 'role:admin'])
+    ->middleware(['auth', 'verified', 'role:Admin|Staff|Super-Admin'])
     ->group(function () {
 
         Route::get('/', [StaticPageController::class, 'admin'])
             ->name('index');
-
 
         Route::post('roles/{role}/permissions', [RoleController::class, 'givePermission'])
             ->name('roles.permissions');
@@ -42,7 +41,7 @@ Route::name('admin.')
             ->name('roles.delete');
         Route::resource('/roles', RoleController::class);
 
-        Route::get('permissions/{role}/delete', [PermissionController::class, 'delete'])
+        Route::get('permissions/{permission}/delete', [PermissionController::class, 'delete'])
             ->name('permissions.delete');
         Route::resource('/permissions', PermissionController::class);
 

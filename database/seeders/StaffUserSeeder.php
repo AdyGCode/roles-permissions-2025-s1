@@ -27,6 +27,7 @@ class StaffUserSeeder extends Seeder
         );
 
 
-        $staffUser->assignRole('staff');
+        $staffUser->assignRole('Staff');
+//        $staffUser->syncPermissions();
     }
 }
