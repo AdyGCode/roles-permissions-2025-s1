@@ -92,7 +92,22 @@ class RoleAndPermissionSeeder extends Seeder
 
         $adminPermissions = [
             'browse user', 'read user', 'edit user', 'add user', 'delete user',
-            'browse post', 'read post', 'edit post', 'add post', 'delete post', 'publish post',
+            'browse post',
+            'read any post',
+            'read own post',
+            'read any unpublished post',
+            'read own unpublished post',
+            'edit any post',
+            'edit own post',
+            'add post',
+            'delete any post',
+            'delete own post',
+            'publish any post',
+            'publish own post',
+            'restore any post',
+            'restore own post',
+            'trash any post',
+            'trash own post',
             'browse permission', 'read permission', 'edit permission', 'add permission', 'delete permission',
             'browse role', 'read role', 'edit role', 'add role', 'delete role',
         ];
@@ -108,8 +123,22 @@ class RoleAndPermissionSeeder extends Seeder
             'browse user', 'read user', 'edit user', 'add user', 'delete user',
             'browse permission', 'read permission',
             'browse role', 'read role',
-            'browse post', 'read post', 'edit post', 'add post', 'delete post',
-        ];
+            'browse post',
+            'read any post',
+            'read own post',
+            'read any unpublished post',
+            'read own unpublished post',
+            'edit any post',
+            'edit own post',
+            'add post',
+            'delete any post',
+            'delete own post',
+            'publish any post',
+            'publish own post',
+            'restore any post',
+            'restore own post',
+            'trash any post',
+            'trash own post',        ];
 
         $roleStaff->syncPermissions($staffPermissions);
         $progress->advance();
@@ -119,8 +148,15 @@ class RoleAndPermissionSeeder extends Seeder
         $roleClient = Role::firstOrCreate(['name' => 'client']);
 
         $clientPermissions = [
-            'browse post', 'read post', 'edit post', 'add post', 'delete post', 'publish post',
-        ];
+            'browse post',
+            'read own post',
+            'read own unpublished post',
+            'edit own post',
+            'add post',
+            'delete own post',
+            'publish own post',
+            'restore own post',
+            'trash own post',        ];
 
         $roleClient->syncPermissions($clientPermissions);
         $progress->advance();

@@ -90,7 +90,7 @@
 
                                 @csrf
 
-                                @canany(['read any post','read own post'])
+
                                     <x-link-button
                                         href="{{ route('posts.show', $post) }}"
                                         class="bg-gray-700 hover:bg-blue-500!
@@ -100,7 +100,7 @@
                                         <i class="fa-solid fa-file mr-4 aria-hidden:true group-hover:text-white "></i>
                                         {{ __('Show') }}
                                     </x-link-button>
-                                @endcan
+
 
                                 @can(['edit any post', 'edit own post'])
                                     <x-link-button
