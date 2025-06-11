@@ -2,17 +2,25 @@
 
 namespace App\Providers;
 
+use App\Models\Post;
+use App\Policies\PostPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
+
+    protected $policies = [
+        Post::class => PostPolicy::class
+        // ...
+    ];
+
     /**
      * Register any application services.
      */
     public function register(): void
     {
-        //
+        Gate::policy(Post::class, PostPolicy::class);
     }
 
     /**

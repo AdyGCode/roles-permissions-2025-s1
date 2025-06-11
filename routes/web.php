@@ -4,6 +4,7 @@
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StaticPageController;
 use Illuminate\Support\Facades\Route;
@@ -59,10 +60,22 @@ Route::name('admin.')
             UserController::class);
     });
 
+
+Route::middleware(['auth', 'verified'])
+    ->group(function () {
+
+
+        Route::post('posts/{post}/delete', [PostController::class, "delete"])
+            ->name('posts.delete');
+    Route::resource('/posts', PostController::class);
+
+});
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
 
 require __DIR__ . '/auth.php';

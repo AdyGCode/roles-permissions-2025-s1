@@ -14,7 +14,20 @@ use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
-    //
+
+    /**
+     * Role Constructor
+     *
+     * Apply permissions to the methods before they are 'called'
+     */
+    public function __construct()
+    {
+        $this->middleware('permission:browse role', ['only' => ['index']]);
+        $this->middleware('permission:read role', ['only' => ['show']]);
+        $this->middleware('permission:edit role', ['only' => ['update','edit','givePermission','revokePermission']]);
+        $this->middleware('permission:add role', ['only' => ['create','store','givePermission','revokePermission']]);
+        $this->middleware('permission:delete role', ['only' => ['destroy']]);
+    }
 
     public function index()
     {

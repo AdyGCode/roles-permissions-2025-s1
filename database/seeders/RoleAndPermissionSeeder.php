@@ -19,18 +19,30 @@ class RoleAndPermissionSeeder extends Seeder
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
         $seedPermissions = [
+
+            'browse post',
+            'read any post',
+            'read own post',
+            'read any unpublished post',
+            'read own unpublished post',
+            'edit any post',
+            'edit own post',
+            'add post',
+            'delete any post',
+            'delete own post',
+            'publish any post',
+            'publish own post',
+            'restore any post',
+            'restore own post',
+            'trash any post',
+            'trash own post',
+
+
             'browse user',
             'read user',
             'edit user',
             'add user',
             'delete user',
-
-            'browse post',
-            'read post',
-            'edit post',
-            'add post',
-            'delete post',
-            'publish post',
 
             'browse permission',
             'read permission',

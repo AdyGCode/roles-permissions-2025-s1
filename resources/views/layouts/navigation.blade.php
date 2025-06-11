@@ -23,6 +23,11 @@
                         {{ __('Home') }}
                     </x-nav-link>
 
+                    <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.*')">
+                        <i class="fa-solid fa-home mr-1"></i>
+                        {{ __('Posts') }}
+                    </x-nav-link>
+
                     @auth
                         <x-nav-link :href="route('static.dashboard')" :active="request()->routeIs('static.dashboard')">
                             <i class="fa-solid fa-laptop mr-1"></i>
@@ -35,7 +40,6 @@
                             <i class="fa-solid fa-user-tie mr-1"></i>
                             {{ __('Admin') }}
                         </x-nav-link>
-
                         @endhasrole
 
                         <x-nav-link :href="route('static.dashboard')" :active="request()->routeIs('other.*')">
