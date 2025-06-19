@@ -23,6 +23,9 @@ class DatabaseSeeder extends Seeder
 
             PostSeeder::class,
 
+
+            CategorySeeder::class,
+            JokeSeeder::class,
         ]);
 
     }
